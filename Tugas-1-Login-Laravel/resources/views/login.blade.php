@@ -61,7 +61,6 @@
         <h1>Login</h1>
         <p class="subtitle">Masuk untuk membuka dashboard</p>
 
-        {{-- Tampilkan pesan error kalau ada --}}
         @if ($errors->has('login'))
             <div class="error">{{ $errors->first('login') }}</div>
         @endif
