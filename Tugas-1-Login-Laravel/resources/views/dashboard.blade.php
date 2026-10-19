@@ -52,6 +52,34 @@
         <p>Selamat datang, <span class="username">{{ Auth::user()->nama_lengkap }}!</span></p>
         <p>Halaman ini hanya bisa dibuka setelah login.</p>
         <p>Username: {{ Auth::user()->username }}</p>
+        <p>Role: {{ Auth::user()->role }}</p>
+
+        @if (session('status'))
+            <p>{{ session('status') }}</p>
+        @endif
+
+        @if ($errors->any())
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+        <h3>Role Management</h3>
+        @foreach (\App\Models\User::all() as $u)
+            <form method="POST" action="/admin/users/{{ $u->id }}/role">
+                @csrf
+                @method('PATCH')
+                <span>{{ $u->username }} ({{ $u->role }}):</span>
+                <select name="role">
+                    <option value="customer" {{ $u->role === 'customer' ? 'selected' : '' }}>customer</option>
+                    <option value="staff" {{ $u->role === 'staff' ? 'selected' : '' }}>staff</option>
+                    <option value="admin" {{ $u->role === 'admin' ? 'selected' : '' }}>admin</option>
+                </select>
+                <button type="submit">Ubah</button>
+            </form>
+        @endforeach
     </div>
 </body>
 </html>
